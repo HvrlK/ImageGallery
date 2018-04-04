@@ -32,6 +32,9 @@ class ImageGalleryCollectionViewController: UICollectionViewController, UICollec
         super.viewWillLayoutSubviews()
         if let cv = collectionView?.frame {
             flowLayout?.itemSize = CGSize(width: (cv.size.width - 20) / 3 * scale, height: (cv.size.width - 20) / 3 * scale)
+            collectionView?.visibleCells.forEach {
+                ($0 as? ImageGalleryCollectionViewCell)?.layoutIfNeeded()
+            }
         }
     }
     
@@ -43,7 +46,7 @@ class ImageGalleryCollectionViewController: UICollectionViewController, UICollec
         }
     }
 
-    var imageURLs = [URL(string: "https://www.jpl.nasa.gov/images/cassini/20090202/pia03883-full.jpg")]
+    var imageURLs: [URL?] = []
     
     /*
     // MARK: - Navigation
@@ -74,6 +77,7 @@ class ImageGalleryCollectionViewController: UICollectionViewController, UICollec
                                 imageCell.imageHeight = image.size.height
                                 imageCell.imageWidth = image.size.width
                                 imageCell.image = image
+                                imageCell.layoutIfNeeded()
                             }
 //
                             imageCell.layer.borderWidth = 5

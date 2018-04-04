@@ -20,13 +20,19 @@ class ImageGalleryCollectionViewCell: UICollectionViewCell {
             return imageView.image
         }
         set {
-            imageView.frame.origin = CGPoint(x: 0, y: self.frame.midY - (imageHeight / imageWidth * self.frame.size.width) / 2)
-            imageView.frame.size = CGSize(width: self.frame.size.width, height: imageHeight / imageWidth * self.frame.size.width)
             imageView.image = newValue
             spinner.stopAnimating()
         }
     }
     
     @IBOutlet weak var spinner: UIActivityIndicatorView!
+    
+    override func layoutIfNeeded() {
+        super.layoutIfNeeded()
+        if imageWidth != 0 && imageHeight != 0 {
+            imageView.frame.origin = CGPoint(x: 0, y: self.frame.midY - (imageHeight / imageWidth * self.frame.size.width) / 2)
+            imageView.frame.size = CGSize(width: self.frame.size.width, height: imageHeight / imageWidth * self.frame.size.width)
+        }
+    }
     
 }
