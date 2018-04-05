@@ -48,15 +48,16 @@ class ImageGalleryCollectionViewController: UICollectionViewController, UICollec
 
     var imageURLs: [URL?] = []
     
-    /*
+    
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
+        guard let detailVC = segue.destination.contents as? DetailViewController else {return}
+        if let cell = sender as? UICollectionViewCell, let indexPath = collectionView?.indexPath(for: cell) {
+            detailVC.imageURL = imageURLs[indexPath.row]
+        }
     }
-    */
+    
 
     // MARK: UICollectionViewDataSource
 
@@ -158,24 +159,6 @@ class ImageGalleryCollectionViewController: UICollectionViewController, UICollec
     }
     
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
