@@ -10,14 +10,25 @@ import UIKit
 
 class ImageGalleryTableViewController: UITableViewController {
 
-    var albums = ["Food", "Animals"]
-    var deletedAlbums: [String] = []
-
+    var albums: [Album] = [Album(name: "Food", URLs: [])]
+    var deletedAlbums: [Album] = []
+    
     @IBAction func newAlbum(_ sender: UIBarButtonItem) {
-        albums += ["Untitled".madeUnique(withRespectTo: albums)]
+        var names: [String] = []
+        for album in albums {
+            names += [album.name]
+        }
+        albums.append(Album(name: "Untitled".madeUnique(withRespectTo: names), URLs: []))
         tableView.reloadData()
     }
     
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        if splitViewController?.preferredDisplayMode != .primaryOverlay {
+            splitViewController?.preferredDisplayMode = .primaryOverlay
+        }
+    }
+
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -43,9 +54,11 @@ class ImageGalleryTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AlbumCell", for: indexPath)
         if let albumCell = cell as? ImageGalleryTableViewCell {
             if indexPath.section == 0 {
-                albumCell.title.text = albums[indexPath.row]
+                albumCell.title.text = albums[indexPath.row].name
+                albumCell.imageGalleryTVC = self
             } else {
-                albumCell.title.text = deletedAlbums[indexPath.row]
+                albumCell.title.text = deletedAlbums[indexPath.row].name
+                albumCell.imageGalleryTVC = self
             }
         }
         return cell
@@ -77,10 +90,8 @@ class ImageGalleryTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         if indexPath.section == 1 {
             let contextual = UIContextualAction(style: .destructive, title: "Undelete") { (contextAction, view, isSuccess) in
-// create struct with index
                 self.albums.append(self.deletedAlbums.remove(at: indexPath.row))
                 tableView.moveRow(at: indexPath, to: IndexPath(row: self.albums.count - 1, section: 0))
-//
                 self.tableView.reloadData()
                 self.reloadRecentlyDelatedData()
                 isSuccess(true)
@@ -98,14 +109,16 @@ class ImageGalleryTableViewController: UITableViewController {
         }
     }
 
-    
     // MARK: - Navigation
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let NC = segue.destination as! UINavigationController
-        let ImageGallaryCVC = NC.topViewController as! ImageGalleryCollectionViewController
+        let imageGallaryCVC = NC.topViewController as! ImageGalleryCollectionViewController
         if let cell = sender as? UITableViewCell, let indexPath = tableView.indexPath(for: cell) {
-            ImageGallaryCVC.title = albums[indexPath.row]
+            imageGallaryCVC.title = albums[indexPath.row].name
+            imageGallaryCVC.imageURLs = albums[indexPath.row].URLs
+            imageGallaryCVC.indexPathOfAlbum = indexPath
+            imageGallaryCVC.imageGalleryTVC = self
         }
 
     }

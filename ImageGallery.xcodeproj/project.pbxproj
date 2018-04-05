@@ -66,14 +66,14 @@
 		DDDB99362072FFE20073EE69 /* ImageGallery */ = {
 			isa = PBXGroup;
 			children = (
-				DDDB993B2072FFE20073EE69 /* Main.storyboard */,
-				DDCAE31420763E1300F6149A /* DetailViewController.swift */,
-				DDCAE3122075553800F6149A /* ImageGalleryTableViewCell.swift */,
 				DDCAE30E2074EB5700F6149A /* ImageGalleryTableViewController.swift */,
-				DDCAE31620764FB800F6149A /* Data.swift */,
-				DDDB994C207303A80073EE69 /* ImageGalleryCollectionViewCell.swift */,
+				DDCAE3122075553800F6149A /* ImageGalleryTableViewCell.swift */,
 				DDDB994A207300550073EE69 /* ImageGalleryCollectionViewController.swift */,
+				DDDB994C207303A80073EE69 /* ImageGalleryCollectionViewCell.swift */,
+				DDCAE31420763E1300F6149A /* DetailViewController.swift */,
 				DDDB995020731EEA0073EE69 /* Utilities.swift */,
+				DDCAE31620764FB800F6149A /* Data.swift */,
+				DDDB993B2072FFE20073EE69 /* Main.storyboard */,
 				DDDB99492072FFF70073EE69 /* Supporting Files */,
 				DDDB99432072FFE30073EE69 /* Info.plist */,
 			);

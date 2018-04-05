@@ -20,15 +20,22 @@ class ImageGalleryTableViewCell: UITableViewCell, UITextFieldDelegate {
     
     @IBOutlet weak var title: UITextField!
     
+    var imageGalleryTVC: ImageGalleryTableViewController!
+    
     @objc private func doubleTapped() {
         title.isEnabled = true
         title.becomeFirstResponder()
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if let indexPath = imageGalleryTVC.tableView.indexPath(for: self) {
+            imageGalleryTVC.albums[indexPath.row].name = title.text!
+        }
         title.isEnabled = false
         title.resignFirstResponder()
         return true
     }
+    
+    
     
 }

@@ -8,9 +8,10 @@
 
 import UIKit
 
-private let reuseIdentifier = "Cell"
-
 class ImageGalleryCollectionViewController: UICollectionViewController, UICollectionViewDragDelegate, UICollectionViewDropDelegate, UIDropInteractionDelegate {
+    
+    var imageGalleryTVC: ImageGalleryTableViewController!
+    var indexPathOfAlbum: IndexPath!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,7 +48,6 @@ class ImageGalleryCollectionViewController: UICollectionViewController, UICollec
     }
 
     var imageURLs: [URL?] = []
-    
     
     // MARK: - Navigation
 
@@ -131,6 +131,7 @@ class ImageGalleryCollectionViewController: UICollectionViewController, UICollec
                 if item.dragItem.localObject as? UIImage != nil {
                     collectionView.performBatchUpdates({
                         imageURLs.swapAt(sourceIndexPath.item, destinationIndexPath.item)
+                        imageGalleryTVC.albums[indexPathOfAlbum.row].URLs.swapAt(sourceIndexPath.item, destinationIndexPath.item)
                         collectionView.deleteItems(at: [sourceIndexPath])
                         collectionView.insertItems(at: [destinationIndexPath])
                     })
@@ -147,6 +148,7 @@ class ImageGalleryCollectionViewController: UICollectionViewController, UICollec
                             if let url = provider as? URL {
                                 placeholderContext.commitInsertion(dataSourceUpdates: { insertionIndexPath in
                                     self.imageURLs.insert(url.imageURL, at: insertionIndexPath.item)
+                                    self.imageGalleryTVC.albums[self.indexPathOfAlbum.row].URLs.append(url.imageURL)
                                 })
                             } else {
                                 placeholderContext.deletePlaceholder()
